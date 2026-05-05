@@ -5,11 +5,21 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      playwright-version:
+        description: Playwright version to publish, without the leading v
+        required: true
+        default: 1.58.2
+      ubuntu-release:
+        description: Ubuntu release suffix from the upstream Playwright image
+        required: true
+        default: noble
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: north-brook/fast-playwright
-  PLAYWRIGHT_TAG: v1.58.2-noble
+  DEFAULT_PLAYWRIGHT_VERSION: 1.58.2
+  DEFAULT_UBUNTU_RELEASE: noble
 
 jobs:
   publish:
@@ -33,11 +43,26 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Resolve image tag
+        id: image
+        shell: bash
+        env:
+          INPUT_PLAYWRIGHT_VERSION: ${{ inputs.playwright-version }}
+          INPUT_UBUNTU_RELEASE: ${{ inputs.ubuntu-release }}
+        run: |
+          PLAYWRIGHT_VERSION="${INPUT_PLAYWRIGHT_VERSION:-$DEFAULT_PLAYWRIGHT_VERSION}"
+          UBUNTU_RELEASE="${INPUT_UBUNTU_RELEASE:-$DEFAULT_UBUNTU_RELEASE}"
+          PLAYWRIGHT_TAG="v${PLAYWRIGHT_VERSION}-${UBUNTU_RELEASE}"
+
+          echo "playwright-tag=${PLAYWRIGHT_TAG}" >> "$GITHUB_OUTPUT"
+
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
+          build-args: |
+            PLAYWRIGHT_TAG=${{ steps.image.outputs.playwright-tag }}
           tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.PLAYWRIGHT_TAG }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.image.outputs.playwright-tag }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest

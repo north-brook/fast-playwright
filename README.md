@@ -6,11 +6,12 @@ Published image:
 
 ```text
 ghcr.io/north-brook/fast-playwright:v1.58.2-noble
+ghcr.io/north-brook/fast-playwright:v1.59.1-noble
 ```
 
 ## Included
 
-- `mcr.microsoft.com/playwright:v1.58.2-noble`
+- `mcr.microsoft.com/playwright:<version>`
 - `curl`
 - `unzip`
 
@@ -32,4 +33,17 @@ This lets E2E jobs remove the repeated apt install step:
 
 ## Updating Playwright
 
-When the app upgrades Playwright, update the base image tag in `Dockerfile`, then update the image tag in `.github/workflows/publish.yml`.
+When an app upgrades Playwright, publish a matching image from the `Publish` workflow:
+
+```text
+playwright-version: 1.59.1
+ubuntu-release: noble
+```
+
+This publishes:
+
+```text
+ghcr.io/north-brook/fast-playwright:v1.59.1-noble
+```
+
+The Dockerfile accepts `PLAYWRIGHT_TAG` as a build arg and defaults to `v1.58.2-noble` for normal pushes.

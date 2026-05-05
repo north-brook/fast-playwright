@@ -1,4 +1,5 @@
-FROM mcr.microsoft.com/playwright:v1.58.2-noble
+ARG PLAYWRIGHT_TAG=v1.58.2-noble
+FROM mcr.microsoft.com/playwright:${PLAYWRIGHT_TAG}
 
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
