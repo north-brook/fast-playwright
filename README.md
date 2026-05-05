@@ -2,16 +2,14 @@
 
 Small GitHub Actions container image based on the official Playwright image, with the extra system packages needed by Bun preinstalled.
 
-Published image:
+## Images
 
-```text
-ghcr.io/north-brook/fast-playwright:v1.58.2-noble
-ghcr.io/north-brook/fast-playwright:v1.59.1-noble
-```
+- `ghcr.io/north-brook/fast-playwright:v1.58.2-noble`
+- `ghcr.io/north-brook/fast-playwright:v1.59.1-noble`
 
 ## Included
 
-- `mcr.microsoft.com/playwright:<version>`
+- Official Playwright base image
 - `curl`
 - `unzip`
 
@@ -31,19 +29,4 @@ This lets E2E jobs remove the repeated apt install step:
     apt-get install -y unzip curl
 ```
 
-## Updating Playwright
-
-When an app upgrades Playwright, publish a matching image from the `Publish` workflow:
-
-```text
-playwright-version: 1.59.1
-ubuntu-release: noble
-```
-
-This publishes:
-
-```text
-ghcr.io/north-brook/fast-playwright:v1.59.1-noble
-```
-
-The Dockerfile accepts `PLAYWRIGHT_TAG` as a build arg and defaults to `v1.58.2-noble` for normal pushes.
+Use an image tag that matches the app's installed Playwright version.
