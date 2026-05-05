@@ -48,10 +48,10 @@ Before publishing a new version, verify that the upstream Playwright image exist
 docker build --build-arg PLAYWRIGHT_TAG=v1.59.1-noble -t fast-playwright:1.59.1-check .
 ```
 
-After publishing, verify the image can be pulled anonymously:
+After publishing, verify the image can be pulled anonymously for the GitHub Actions runner platform:
 
 ```bash
-docker pull ghcr.io/north-brook/fast-playwright:v1.59.1-noble
+docker pull --platform linux/amd64 ghcr.io/north-brook/fast-playwright:v1.59.1-noble
 ```
 
 If anonymous pulls fail with `denied` or `unauthorized`, check the GHCR package visibility and make sure the package is public.

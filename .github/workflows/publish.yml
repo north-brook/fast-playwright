@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - Dockerfile
+      - .github/workflows/publish.yml
   workflow_dispatch:
     inputs:
       playwright-version:
@@ -61,6 +64,7 @@ jobs:
         with:
           context: .
           push: true
+          platforms: linux/amd64
           build-args: |
             PLAYWRIGHT_TAG=${{ steps.image.outputs.playwright-tag }}
           tags: |
