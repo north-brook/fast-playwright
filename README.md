@@ -6,6 +6,7 @@ Small GitHub Actions container image based on the official Playwright image, wit
 
 - `ghcr.io/north-brook/fast-playwright:v1.58.2-noble`
 - `ghcr.io/north-brook/fast-playwright:v1.59.1-noble`
+- `ghcr.io/north-brook/fast-playwright:v1.60.0-noble`
 
 ## Included
 
@@ -17,7 +18,7 @@ Small GitHub Actions container image based on the official Playwright image, wit
 
 ```yaml
 container:
-  image: ghcr.io/north-brook/fast-playwright:v1.58.2-noble
+  image: ghcr.io/north-brook/fast-playwright:v1.60.0-noble
 ```
 
 This lets E2E jobs remove the repeated apt install step:
